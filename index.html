@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>GMD Spark | Official App</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/XrLX7kXC/Gemini-Generated-Image-d70jwud70jwud70j.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#FF6600">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background: #030407;
+            background: radial-gradient(circle at 30% 30%, #2a1a0f, #030407 70%);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+            position: relative;
+        }
+
+        .animated-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .moving-orange {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle at 30% 50%, rgba(255,102,0,0.4) 0%, transparent 30%),
+                        radial-gradient(circle at 70% 30%, rgba(255,102,0,0.3) 0%, transparent 40%),
+                        radial-gradient(circle at 10% 80%, rgba(255,102,0,0.35) 0%, transparent 35%),
+                        radial-gradient(circle at 90% 70%, rgba(255,102,0,0.3) 0%, transparent 45%);
+            animation: moveOrange 20s infinite alternate ease-in-out;
+            top: -25%;
+            left: -25%;
+            filter: blur(40px);
+        }
+        
+        @keyframes moveOrange {
+            0% { transform: rotate(0deg) scale(1); opacity: 0.6; }
+            50% { transform: rotate(5deg) scale(1.2); opacity: 0.9; }
+            100% { transform: rotate(-5deg) scale(0.9); opacity: 0.7; }
+        }
+        
+        .moving-orange-2 {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 40% 40%, rgba(255,102,0,0.3) 0%, transparent 50%),
+                        radial-gradient(ellipse at 60% 70%, rgba(255,68,0,0.25) 0%, transparent 50%);
+            animation: moveOrange2 15s infinite alternate;
+            top: 0;
+            left: 0;
+            filter: blur(30px);
+        }
+        
+        @keyframes moveOrange2 {
+            0% { transform: translateX(0%) translateY(0%) scale(1); }
+            100% { transform: translateX(15%) translateY(15%) scale(1.3); }
+        }
+
+        .premium-card {
+            width: 100%;
+            max-width: 380px;
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: 3px;
+            position: relative;
+            z-index: 10;
+            border: 1px solid rgba(255,102,0,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.9);
+        }
+
+        .premium-card::before {
+            content: '';
+            position: absolute;
+            top: -4px; left: -4px; right: -4px; bottom: -4px;
+            background: linear-gradient(45deg, #FF6600, #ffaa00, #FF4400, #ff5500);
+            border-radius: 44px;
+            z-index: -1;
+            animation: borderMove 4s linear infinite;
+            opacity: 0.7;
+            background-size: 300% 300%;
+        }
+        
+        @keyframes borderMove {
+            0% { background-position: 0% 50%; filter: hue-rotate(0deg); }
+            50% { background-position: 100% 50%; filter: hue-rotate(180deg); }
+            100% { background-position: 0% 50%; filter: hue-rotate(360deg); }
+        }
+
+        .inner {
+            background: rgba(10, 10, 10, 0.95);
+            border-radius: 37px;
+            padding: 24px 14px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,102,0,0.2);
+        }
+
+        .inner::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at center, rgba(255,102,0,0.12) 0%, transparent 60%);
+            animation: innerGlow 15s linear infinite;
+        }
+        
+        @keyframes innerGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Header Section */
+        .app-name-small {
+            font-size: 14px;
+            font-weight: 600;
+            color: #FF6600;
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+        }
+        
+        .app-name-large {
+            font-size: 18px;
+            font-weight: 800;
+            color: #FFAA00;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        
+        .company-name {
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, #fff, #FF6600, #FFAA00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255,102,0,0.7);
+            animation: companyGlow 3s infinite;
+            letter-spacing: 0.3px;
+        }
+        
+        @keyframes companyGlow {
+            0% { text-shadow: 0 0 15px rgba(255,102,0,0.6); }
+            50% { text-shadow: 0 0 35px rgba(255,102,0,0.9); }
+            100% { text-shadow: 0 0 15px rgba(255,102,0,0.6); }
+        }
+
+        .logo-glow {
+            width: 100px;
+            height: 100px;
+            margin: 10px auto 5px;
+            border-radius: 28px;
+            padding: 4px;
+            background: linear-gradient(45deg, #FF6600, #fff, #FF6600);
+            box-shadow: 0 0 40px rgba(255,102,0,0.8);
+            animation: logoPulse 2.5s infinite;
+        }
+        
+        @keyframes logoPulse {
+            0% { transform: scale(1); box-shadow: 0 0 25px #FF6600; }
+            50% { transform: scale(1.08); box-shadow: 0 0 60px #FF6600, 0 0 40px #ffaa00; }
+            100% { transform: scale(1); box-shadow: 0 0 25px #FF6600; }
+        }
+
+        .logo { 
+            width: 100%; 
+            height: 100%; 
+            border-radius: 24px; 
+            background: #000;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .brand-container {
+            margin-bottom: 20px;
+        }
+        
+        .brand { 
+            font-size: 28px; 
+            font-weight: 900; 
+            background: linear-gradient(45deg, #fff, #FF6600);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(255,102,0,0.7);
+            animation: brandFloat 3s infinite ease-in-out;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+        
+        .brand-sub {
+            font-size: 16px;
+            font-weight: 600;
+            color: #FFAA00;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: -5px;
+            opacity: 0.9;
+        }
+        
+        @keyframes brandFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        /* ROI Boxes */
+        .roi-boxes {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px 0 25px;
+        }
+        
+        .roi-item {
+            background: linear-gradient(135deg, rgba(255,102,0,0.1), rgba(0,0,0,0.8));
+            border: 1px solid rgba(255,102,0,0.3);
+            border-radius: 50px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .roi-item:hover {
+            transform: translateX(5px);
+            border-color: #FF6600;
+        }
+        
+        .roi-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            flex-shrink: 0;
+            cursor: pointer;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s;
+        }
+        
+        .roi-item:nth-child(1) .roi-icon {
+            background: #1877f2;
+            animation: heartbeat 2.5s infinite;
+        }
+        
+        .roi-item:nth-child(2) .roi-icon {
+            background: linear-gradient(45deg, #f09433, #d62976, #962fbf);
+            animation: spin 4s infinite;
+        }
+        
+        .roi-item:nth-child(3) .roi-icon {
+            background: #e60023;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.15); }
+            35% { transform: scale(1); }
+            45% { transform: scale(1.1); }
+            55% { transform: scale(1); }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(10deg) scale(1.1); }
+            100% { transform: rotate(0deg) scale(1); }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        
+        .roi-text {
+            font-size: 15px;
+            font-weight: 600;
+            flex: 1;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+        }
+        
+        .roi-check {
+            color: #00ff00;
+            font-size: 20px;
+            flex-shrink: 0;
+            animation: checkGlow 2s infinite;
+        }
+        
+        @keyframes checkGlow {
+            0%, 100% { opacity: 0.8; text-shadow: 0 0 5px #00ff00; }
+            50% { opacity: 1; text-shadow: 0 0 15px #00ff00; transform: scale(1.1); }
+        }
+
+        /* Feature Boxes */
+        .features-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 10px 0 20px;
+        }
+        
+        .feature-row {
+            background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+            border-radius: 50px;
+            padding: 8px 12px 8px 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid #FF6600;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+            transition: all 0.3s;
+        }
+        
+        .feature-row:hover {
+            transform: translateX(-3px);
+            background: linear-gradient(135deg, #252525, #151515);
+        }
+        
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            flex-shrink: 0;
+            border: 2px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+        
+        .feature-row:nth-child(1) .feature-icon { background: #000000; color: #25f4ee; animation: glitch 3s infinite; }
+        .feature-row:nth-child(2) .feature-icon { background: #1da1f2; animation: float 4s infinite; }
+        .feature-row:nth-child(3) .feature-icon { background: #fffc00; color: black; animation: sparkle 2.5s infinite; }
+        
+        @keyframes glitch {
+            0%, 100% { transform: skew(0deg); }
+            20% { transform: skew(5deg); }
+            40% { transform: skew(-5deg); }
+            60% { transform: skew(2deg); }
+            80% { transform: skew(-2deg); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+        }
+        
+        .feature-text {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            padding: 6px 8px;
+            border-radius: 30px;
+            transition: all 0.2s;
+            text-align: left;
+            cursor: pointer;
+            animation: textPulse 3s infinite;
+        }
+        
+        @keyframes textPulse {
+            0%, 100% { text-shadow: 0 0 5px rgba(255,102,0,0.3); }
+            50% { text-shadow: 0 0 15px rgba(255,102,0,0.6); }
+        }
+        
+        .feature-text:hover {
+            background: rgba(255,102,0,0.2);
+            color: #FFAA00;
+            transform: translateX(3px);
+        }
+        
+        .badge {
+            background: linear-gradient(135deg, #FF6600, #FF4400);
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 10px;
+            font-weight: 900;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* BUTTONS - WITH WHATSAPP */
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .btn-main, .btn-wa {
+            padding: 16px 16px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 900;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.3);
+            letter-spacing: 0.8px;
+            width: 100%;
+        }
+
+        .btn-main {
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            color: #000;
+            box-shadow: 0 0 25px rgba(255,255,255,0.3);
+            animation: btnGlow 3s infinite;
+        }
+        
+        @keyframes btnGlow {
+            0%, 100% { box-shadow: 0 0 25px rgba(255,255,255,0.3); }
+            50% { box-shadow: 0 0 45px #FF6600; }
+        }
+        
+        .btn-main:active {
+            transform: scale(0.96);
+            background: linear-gradient(45deg, #FF6600, #FF4400);
+            color: white;
+        }
+
+        .btn-wa {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            animation: waGlow 2.5s infinite;
+        }
+        
+        @keyframes waGlow {
+            0%, 100% { box-shadow: 0 0 15px #25D366; }
+            50% { box-shadow: 0 0 35px #25D366; }
+        }
+        
+        .btn-wa i {
+            font-size: 20px;
+        }
+
+        .footer {
+            margin-top: 15px;
+            font-size: 8px;
+            opacity: 0.6;
+            letter-spacing: 1px;
+        }
+    </style>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="animated-bg">
+        <div class="moving-orange"></div>
+        <div class="moving-orange-2"></div>
+    </div>
+
+    <div class="premium-card">
+        <div class="inner">
+            <!-- Header exactly like screenshot -->
+            <div class="app-name-small">GMD Spark | Official App</div>
+            <div class="app-name-large">GMD SPARK | OFFICIAL APP</div>
+            <div class="company-name">GMD Spark Commerce Pvt Ltd</div>
+            
+            <!-- Logo -->
+            <div class="logo-glow">
+                <img src="https://i.ibb.co/XrLX7kXC/Gemini-Generated-Image-d70jwud70jwud70j.png" class="logo" alt="GMD Spark Commerce Pvt Ltd">
+            </div>
+            
+            <div class="brand-container">
+                <div class="brand">GMD SPARK</div>
+                <div class="brand-sub">COMMERCE</div>
+            </div>
+            
+            <!-- ROI Boxes -->
+            <div class="roi-boxes">
+                <div class="roi-item">
+                    <span class="roi-icon" id="roiIcon1"><i class="fab fa-facebook-f"></i></span>
+                    <span class="roi-text" id="roiText1">ROAS 3.4X → 6X ✔</span>
+                    <span class="roi-check">✓</span>
+                </div>
+                
+                <div class="roi-item">
+                    <span class="roi-icon" id="roiIcon2"><i class="fab fa-instagram"></i></span>
+                    <span class="roi-text" id="roiText2">Organic & Paid ✔</span>
+                    <span class="roi-check">✓</span>
+                </div>
+                
+                <div class="roi-item">
+                    <span class="roi-icon" id="roiIcon3"><i class="fab fa-pinterest-p"></i></span>
+                    <span class="roi-text" id="roiText3">ROI-First Creative Testing ✔</span>
+                    <span class="roi-check">✓</span>
+                </div>
+            </div>
+            
+            <!-- Features -->
+            <div class="features-container">
+                <div class="feature-row">
+                    <span class="feature-icon" id="featureIcon1"><i class="fab fa-tiktok"></i></span>
+                    <span class="feature-text" id="featureText1">CREATIVE TESTING</span>
+                    <span class="badge">PRO</span>
+                </div>
+                
+                <div class="feature-row">
+                    <span class="feature-icon" id="featureIcon2"><i class="fab fa-x-twitter"></i></span>
+                    <span class="feature-text" id="featureText2">META & GOOGLE ADS</span>
+                    <span class="badge">PRO</span>
+                </div>
+                
+                <div class="feature-row">
+                    <span class="feature-icon" id="featureIcon3"><i class="fab fa-snapchat-ghost"></i></span>
+                    <span class="feature-text" id="featureText3">TIKTOK STRATEGY</span>
+                    <span class="badge">PRO</span>
+                </div>
+            </div>
+
+            <!-- BUTTONS - WITH WHATSAPP (YOUR NUMBER) -->
+            <div class="button-container">
+                <a href="mailto:contact@gmdspark.com?subject=Book%20Audit" class="btn-main">📅 BOOK AUDIT</a>
+                <a href="https://wa.me/923007956507?text=Hi%20GMD%20Spark%2C%20I%20want%20to%20know%20more%20about%20your%20services" class="btn-wa"><i class="fab fa-whatsapp"></i> WHATSAPP CHAT</a>
+            </div>
+
+            <div class="footer">
+                GMD Spark Commerce Pvt Ltd © 2025
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // ROI ICON LINKS
+            document.getElementById('roiIcon1').onclick = function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                window.open('https://facebook.com/yourpage', '_blank');
+            };
+            
+            document.getElementById('roiIcon2').onclick = function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                window.open('https://instagram.com/yourpage', '_blank');
+            };
+            
+            document.ge
